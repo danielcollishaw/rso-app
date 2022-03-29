@@ -1,6 +1,7 @@
 import React from "react";
-import logo from './logo.svg';
 import './App.css';
+import Nav from './components/nav';
+import Dashboard from './components/cards/dashboard';
 
 function App() {
   const [data, setData] = React.useState(null);
@@ -14,12 +15,13 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <Nav></Nav>
         <p>
           {(!data) ? "Loading..." : data}
         </p>
-      </header>
+        <div className="cardHolder container ml-auto">
+          <Dashboard></Dashboard>
+        </div>
     </div>
   );
 }

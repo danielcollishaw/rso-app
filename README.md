@@ -22,14 +22,15 @@ Once cloned, run npm start to initiliaze the back-end server.
 ```
 npm start
 ```
+The backend server should be located at localhost:3001.
 
-In another terminal window initiliaze the react-client by
+In another terminal window initiliaze the react-client by running
 ```
 cd client
 npm start
 ```
 
-The backend server should be located at localhost:3001. The front end server should be located at localhost:3000.
+The front end server should be located at localhost:3000.
 
 ## Built With
 

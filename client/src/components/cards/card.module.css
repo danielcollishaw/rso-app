@@ -1,0 +1,19 @@
+.cardContainer {
+  border: 3px solid black;
+  border-radius: 30px;
+  height: 400px;
+  width: 300px;
+  position: relative;
+}
+
+.ratingsContainer {
+  text-align: left;
+  margin-left: -8px;
+}
+
+.geoContainer {
+  text-align: left;
+  font-size: 14px;
+  position: absolute;
+  bottom: 30px;
+}
