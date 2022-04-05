@@ -1,7 +1,6 @@
 import React from "react";
-import './App.css';
-import Nav from './components/nav';
-import Dashboard from './components/cards/dashboard';
+import Nav from "./components/nav";
+import Dashboard from "./components/cards/dashboard";
 
 function App() {
   const [data, setData] = React.useState(null);
@@ -14,12 +13,12 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="Home">
         <Nav></Nav>
-        <p>
+        <p className="text-center">
           {(!data) ? "Loading..." : data}
         </p>
-        <div className="cardHolder container ml-auto">
+        <div className="body">
           <Dashboard></Dashboard>
         </div>
     </div>
