@@ -1,6 +1,6 @@
 import React from "react";
 
-class Login extends React.Component {
+class Register extends React.Component {
   state = {};
 
   render() {
@@ -8,7 +8,7 @@ class Login extends React.Component {
       <div>
         <form className="card border-3">
           <div className="card-header">
-            <h1 className="text-center text-muted mb-0">Sign In</h1>
+            <h1 className="text-center text-muted mb-0">Register</h1>
           </div>
 
           <div className="container w-75 p-3">
@@ -22,12 +22,12 @@ class Login extends React.Component {
 
             <div className="row mb-4">
                <button className="btn btn-outline-primary rounded-pill" >
-                 Submit
+                 Create
               </button>
             </div>
 
             <div className="text-center">
-              <p>Not a member? <a href="/register" className="">Register</a></p>
+              <p>Already a member? <a href="/login" className="">Login</a></p>
             </div>
           </div>
         </form>
@@ -38,4 +38,4 @@ class Login extends React.Component {
 
 }
 
-export default Login;
+export default Register;
