@@ -5,6 +5,8 @@ const AppError = require("./utils/AppError");
 ///Routes
 const errorRoutes = require("./routes/errorRoutes");
 const authRoutes = require('./routes/authRoutes')
+const eventRoutes = require('./routes/eventRoutes')
+const otherRoutes = require('./routes/otherRoutes')
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -13,15 +15,24 @@ const app = express();
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+})
+
 
 /////////////////////////
 //API ENDPOINTS
-app.get("/api", (_, res) => {
-  res.json({ message: "Hello from Express!" })
-});
+
 
 //authentication routes
 app.use(authRoutes)
+
+//event routes
+app.use(eventRoutes)
+
+//other routes
+app.use(otherRoutes)
 
 //error handling routes
 app.use(errorRoutes)

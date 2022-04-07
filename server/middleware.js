@@ -1,6 +1,7 @@
 const AppError = require("./utils/AppError");
 const config = process.env
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const connection = require("./db");
 
 module.exports.validateRegister = (req, res, next) => {
     // username min length 3
@@ -33,15 +34,29 @@ module.exports.verifyToken = (req, res, next) => {
     }
 }
 
-module.exports.isAdmin = () => {
-
+module.exports.isAdmin = (req, res, next) => {
+    connection.query(`SELECT * from admins WHERE user_id="${req.user.user_id}"`, (err, response) => {
+        if (err) return res.status(500).json({ err: err })
+        if (response.length > 0) {
+            return next()
+        } else {
+            return res.status(500).json({ err: 'only admin users are authorized to do this action' })
+        }
+    })
 }
 
-module.exports.isSuperAdmin = () => {
-
+module.exports.isSuperAdmin = (req, res, next) => {
+    connection.query(`SELECT * from super_admins WHERE user_id="${req.user.user_id}"`, (err, response) => {
+        if (err) return res.status(500).json({ err: err })
+        if (response.length > 0) {
+            return next()
+        } else {
+            return res.status(500).json({ err: 'only super admin can create a uni profile' })
+        }
+    })
 }
 
-module.exports.isRSOMember = () => {
+module.exports.isRSOMember = (req, res, next) => {
 
 }
 
