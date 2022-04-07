@@ -25,6 +25,8 @@ let connection = mysql.createConnection({
 });
 connection.connect();
 
+module.exports = connection
+
 /* This is how to query, it will return a list of rows so you can access using
 index, each row is a json object. */
 // connection.query("SELECT * FROM universities", (err, res) => {
