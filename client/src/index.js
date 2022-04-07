@@ -8,6 +8,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import Home from './Home';
 import Login from './Login';
 import Register from './Register';
+import Organize from './Organize';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ ReactDOM.render(
         <Route exact path="/" element={<Home />}></Route>
         <Route exact path="/login" element={<Login />}></Route>
         <Route exact path="/register" element={<Register />}></Route>
+        <Route exact path="/organize" element={<Organize />}></Route>
       </Routes>
     </Router>
   </React.StrictMode>,
