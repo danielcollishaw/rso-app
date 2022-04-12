@@ -21,7 +21,7 @@ class Register extends React.Component {
             </div>
 
             <div className="form-outline mb-5">
-              <input onChange={this.handlePass} id="pass" className="form-control" placeholder="Password" type = "password"/>
+              <input onChange={this.handlePass} id="pass" className="form-control" placeholder="Password" type="password"/>
             </div>
 
             <div className="row mb-4">
