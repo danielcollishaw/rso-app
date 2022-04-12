@@ -23,11 +23,7 @@ class Login extends React.Component {
             </div>
 
             <div className="form-outline mb-5">
-<<<<<<< HEAD
-              <input onChange={this.handlePass} id="pass" className="form-control" type="password" placeholder="Password"/>
-=======
               <input onChange={this.handlePass} id="pass" className="form-control" placeholder="Password" type="password"/>
->>>>>>> 7aa1497c3f41ac33eb098ee95b496b98b955d1c0
             </div>
 
             <div className="row mb-4">

@@ -2,7 +2,7 @@ const eventRouter = require('express').Router();
 const { verifyToken, isAdmin, isSpecificAdmin } = require('../middleware');
 const AppError = require('../utils/AppError');
 const connection = require('../db')
-
+const { v4: uuidv4 } = require('uuid')
 
 //needs fixing cuz it shows only public events
 eventRouter.get('/events', verifyToken, (req, res) => {
@@ -29,16 +29,20 @@ eventRouter.get('/events/:event_id', verifyToken, (req, res) => {
 })
 
 eventRouter.post('/events', verifyToken, isAdmin, (req, res) => {
-    const { date_time, phone, email, name, type_of, description, start_time, address } = req.body
+    const { date_time, phone, email, name, type_of, description, start_time, address, user_id } = req.body
+    const event_id = uuidv4()
+
     connection.query(
-        `INSERT INTO events (event_id, date_time, phone, email, name, type_of, description, start_time, address) VALUES ("${uuidv4()}", "${date_time}", "${phone}", "${email}, ${name}, ${type_of}, ${description}, ${start_time}", ${address}")`
+        `INSERT INTO events (event_id, date_time, phone, email, name, type_of, description, start_time, address) VALUES ("${event_id}", "${date_time}", "${phone}", "${email}", "${name}", "${type_of}", "${description}", "${start_time}", "${address}")`
         , (err, response) => {
             if (err) {
-                return res.status(500).json({ err: err })
+                res.status(500).json({ err: err })
             } else {
-                return res.status(200).json({ response: response, err: '' })
+                res.status(200).json({ response: response, err: '' })
             }
         })
+
+    connection.query(`INSERT INTO organizes (user_id, event_id) VALUES ("${user_id}", "${event_id}")`)
 })
 
 eventRouter.put('/events/:event_id', verifyToken, isAdmin, isSpecificAdmin, (req, res) => {

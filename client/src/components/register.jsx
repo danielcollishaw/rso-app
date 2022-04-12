@@ -62,7 +62,6 @@ class Register extends React.Component {
     };
 
     handleSubmit = async (e) => {
-        console.log("click");
         const res = await this.postRegister();
 
         if (res.err)
@@ -70,11 +69,6 @@ class Register extends React.Component {
 
         if (res.msg) {
             this.setState({ alert: res.msg });
-
-            // Storing session info
-            localStorage.setItem('user_id', res.user.user_id);
-            localStorage.setItem('username', res.user.username);
-            localStorage.setItem('token', res.token);
         }
     };
 }
