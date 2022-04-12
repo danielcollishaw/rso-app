@@ -29,9 +29,9 @@ eventRouter.get('/events/:event_id', verifyToken, (req, res) => {
 })
 
 eventRouter.post('/events', verifyToken, isAdmin, (req, res) => {
-    const { date_time, category, phone, email, name, type_of, description, start_time } = req.body
+    const { date_time, phone, email, name, type_of, description, start_time, address } = req.body
     connection.query(
-        `INSERT INTO events (event_id, date_time, category, phone, email, name, type_of, description, start_time) VALUES ("${uuidv4()}", "${date_time}", "${category}", "${phone}", "${email}, ${name}, ${type_of}, ${description}, ${start_time}")`
+        `INSERT INTO events (event_id, date_time, phone, email, name, type_of, description, start_time, address) VALUES ("${uuidv4()}", "${date_time}", "${phone}", "${email}, ${name}, ${type_of}, ${description}, ${start_time}", ${address}")`
         , (err, response) => {
             if (err) {
                 return res.status(500).json({ err: err })
@@ -42,9 +42,9 @@ eventRouter.post('/events', verifyToken, isAdmin, (req, res) => {
 })
 
 eventRouter.put('/events/:event_id', verifyToken, isAdmin, isSpecificAdmin, (req, res) => {
-    const { date_time, category, phone, email, name, type_of, description, start_time } = req.body
+    const { date_time, phone, email, name, type_of, description, start_time, address } = req.body
     connection.query(
-        `UPDATE events SET date_time="${date_time}", category="${category}", phone="${phone}", email="${email}", name="${name}", type_of="${type_of}", description="${description}", start_time="${start_time}" WHERE event_id="${req.params.event_id}"`
+        `UPDATE events SET date_time="${date_time}", phone="${phone}", email="${email}", name="${name}", type_of="${type_of}", description="${description}", start_time="${start_time}", address="${address}" WHERE event_id="${req.params.event_id}"`
         , (err, response) => {
             if (err) {
                 return res.status(500).json({ err: err })
