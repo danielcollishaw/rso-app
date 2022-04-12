@@ -23,7 +23,7 @@ module.exports.verifyToken = (req, res, next) => {
 
         jwt.verify(token, "SECRET", (err, user) => {
             if (err) {
-                return res.sendStatus(403);
+                return res.status(403).json({ err });
             }
 
             req.user = user;
@@ -59,6 +59,8 @@ module.exports.isSuperAdmin = (req, res, next) => {
 module.exports.isRSOMember = (req, res, next) => {
 
 }
+
+
 
 module.exports.attendsUniversity = (req, res, next) => {
 

@@ -14,4 +14,7 @@ eventRouter.get('/events', verifyToken, (req, res) => {
     })
 })
 
+
+
+
 module.exports = eventRouter;

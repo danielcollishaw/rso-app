@@ -7,6 +7,7 @@ const connection = require('../db')
 const { v4: uuidv4 } = require('uuid')
 
 router.post('/register', validateRegister, (req, res) => {
+
     connection.query(
         `SELECT * FROM users WHERE LOWER(username) = LOWER("${req.body.username}");`,
         (err, result) => {
@@ -43,6 +44,7 @@ router.post('/register', validateRegister, (req, res) => {
         }
     );
 })
+
 
 router.post('/login', (req, res) => {
     const { password, username } = req.body
