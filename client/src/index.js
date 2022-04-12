@@ -9,6 +9,7 @@ import Home from './Home';
 import Login from './Login';
 import Register from './Register';
 import Organize from './Organize';
+import Found from "./Found";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,6 +19,7 @@ ReactDOM.render(
         <Route exact path="/login" element={<Login />}></Route>
         <Route exact path="/register" element={<Register />}></Route>
         <Route exact path="/organize" element={<Organize />}></Route>
+        <Route exact path="/university" element={<Found />}></Route>
       </Routes>
     </Router>
   </React.StrictMode>,
