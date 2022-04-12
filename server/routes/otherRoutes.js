@@ -22,4 +22,16 @@ router.post('/university', verifyToken, isSuperAdmin, (req, res) => {
     connection.query(`INSERT INTO creates (user_id, uni_id) VALUES ("${user_id}", "${uni_id}")`)
 })
 
+
+router.get('/university', verifyToken, (req, res) => {
+    connection.query('SELECT * FROM universities', (err, result) => {
+        if (err) {
+            res.status(500).json({ err: `oh no something happened, ${err}` })
+        } else {
+            res.status(200).json(result)
+        }
+    });
+});
+
+
 module.exports = router
