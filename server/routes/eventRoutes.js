@@ -29,7 +29,7 @@ eventRouter.get('/events/:event_id', verifyToken, (req, res) => {
 })
 
 eventRouter.post('/events', verifyToken, isAdmin, (req, res) => {
-    const { date_time, phone, email, name, type_of, description, start_time, address, user_id } = req.body
+    const { date_time, phone, email, name, type_of, description, start_time, address } = req.body
     const event_id = uuidv4()
 
     connection.query(
@@ -42,7 +42,13 @@ eventRouter.post('/events', verifyToken, isAdmin, (req, res) => {
             }
         })
 
-    connection.query(`INSERT INTO organizes (user_id, event_id) VALUES ("${user_id}", "${event_id}")`)
+    connection.query(`INSERT INTO organizes (user_id, event_id) VALUES ("${req.user.user_id}", "${event_id}")`, (err, response) => {
+        if (err) {
+            res.status(500).json({ err: err })
+        } else {
+            res.status(200).json({ response: response, err: '' })
+        }
+    })
 })
 
 eventRouter.put('/events/:event_id', verifyToken, isAdmin, isSpecificAdmin, (req, res) => {
