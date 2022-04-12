@@ -60,6 +60,6 @@ module.exports.isRSOMember = (req, res, next) => {
 
 }
 
-module.exports.attendsUniversity = () => {
+module.exports.attendsUniversity = (req, res, next) => {
 
 }
