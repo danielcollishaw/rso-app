@@ -40,7 +40,7 @@ class EventForm extends React.Component {
             </div>
 
             <div className="row mb-4">
-               <button className="btn btn-outline-primary rounded-pill" >
+               <button className="btn btn-outline-primary rounded-pill" type="buton">
                  Create
               </button>
             </div>
