@@ -35,6 +35,10 @@ class University extends React.Component {
             </div>
 
             <div className="form-outline mb-3">
+              <input onChange={this.handleAddress} id="location" className="form-control" placeholder="Full Address"/>
+            </div>
+
+            <div className="form-outline mb-3">
               <textarea onChange={this.handleDesc} id="desc" className="form-control" placeholder="Description"/>
             </div>
 
@@ -67,6 +71,10 @@ class University extends React.Component {
     this.setState({website: e.target.value});
   };
 
+  handleAddress = (e) => {
+    this.setState({address: e.target.value});
+  };
+
   handleDesc = (e) => {
     this.setState({desc: e.target.value});
   };
@@ -84,7 +92,8 @@ class University extends React.Component {
         website: this.state.website,
         description: this.state.desc,
         numStudents: this.state.students,
-        user_id: this.state.user_id
+        user_id: this.state.user_id,
+        address: this.state.address
       })
     };
 
@@ -96,13 +105,12 @@ class University extends React.Component {
   handleSubmit = async (e) => {
     const res = await this.postUni();
 
-    console.log(res)
-
-    if (res.err)
-      this.setState({alert: res.err})
-      
+    if (res.err) {
       if (res.err.message)
         this.setState({alert: res.err.message});
+      else
+        this.setState({alert: res.err})
+    }
 
     if (res.response) {
       this.setState({alert: "Created university", refresh: 1});
