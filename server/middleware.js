@@ -45,6 +45,20 @@ module.exports.isAdmin = (req, res, next) => {
     })
 }
 
+//to check if admin is admin for the specific event
+module.exports.isSpecificAdmin = (req, res, next) => {
+    connection.query(`SELECT * from organizes WHERE user_id="${req.user.user_id} AND event_id="${req.params.event_id}"`, (err, response) => {
+        if (err) return res.status(500).json({ err: err })
+        if (response.length > 0) {
+            return next()
+        } else {
+            return res.status(500).json({ err: "only this event's admin users are authorized to do this action" })
+        }
+    })
+}
+
+
+
 module.exports.isSuperAdmin = (req, res, next) => {
     connection.query(`SELECT * from super_admins WHERE user_id="${req.user.user_id}"`, (err, response) => {
         if (err) return res.status(500).json({ err: err })
