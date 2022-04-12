@@ -19,7 +19,7 @@ module.exports.verifyToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (authHeader) {
-        const token = authHeader.split(' ')[1];
+        const token = authHeader;
 
         jwt.verify(token, "SECRET", (err, user) => {
             if (err) {
