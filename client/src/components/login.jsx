@@ -5,7 +5,8 @@ class Login extends React.Component {
   state = {
     user: "",
     pass: "",
-    alert: ""
+    alert: "",
+    refresh: -1
   };
 
   render() {
@@ -35,6 +36,8 @@ class Login extends React.Component {
               <p>Not a member? <a href="/register" className="">Register</a></p>
               <p className="text-primary">{this.state.alert}</p>
             </div>
+
+            <meta httpEquiv="refresh" content={this.state.refresh}/>
           </div>
         </form>
       </div>
@@ -62,14 +65,13 @@ class Login extends React.Component {
   };
 
   handleSubmit = async (e) => {
-    console.log("click");
     const res = await this.postLogin();
 
     if (res.err)
       this.setState({alert: res.err});
 
     if (res.msg) {
-      this.setState({alert: res.msg});
+      this.setState({alert: res.msg, refresh: 1});
 
       // Storing session info
       localStorage.setItem('user_id', res.user.user_id);
