@@ -38,17 +38,15 @@ eventRouter.post('/events', verifyToken, isAdmin, (req, res) => {
             if (err) {
                 res.status(500).json({ err: err })
             } else {
-                res.status(200).json({ response: response, err: '' })
+                connection.query(`INSERT INTO organizes (user_id, event_id) VALUES ("${req.user.user_id}", "${event_id}")`, (err2, response2) => {
+                    if (err2) {
+                        res.status(500).json({ err: err2 })
+                    } else {
+                        res.status(200).json({ response: response2, err: '' })
+                    }
+                })
             }
         })
-
-    connection.query(`INSERT INTO organizes (user_id, event_id) VALUES ("${req.user.user_id}", "${event_id}")`, (err, response) => {
-        if (err) {
-            res.status(500).json({ err: err })
-        } else {
-            res.status(200).json({ response: response, err: '' })
-        }
-    })
 })
 
 eventRouter.put('/events/:event_id', verifyToken, isAdmin, isSpecificAdmin, (req, res) => {
