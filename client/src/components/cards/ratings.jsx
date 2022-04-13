@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./card.module.css";
 
 class Ratings extends React.Component {
   state = {
@@ -11,12 +12,13 @@ class Ratings extends React.Component {
     ],
     totalRatings: this.props.totalRatings,
     numRatings: this.props.numRatings,
+    fontSize: this.props.fontSize,
     localRating: 0,
   };
 
   render() {
     return (
-      <div style={{ fontSize: "16px" }} className="star-meter">
+      <div style={{"font-size": this.state.fontSize}}className=" star-meter">
         {this.state.stars.map((star) => (
           <span
             style={{ color: this.getStarColor() }}
