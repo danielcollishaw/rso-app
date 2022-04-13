@@ -70,9 +70,9 @@ router.post('/rso', verifyToken, isAdmin, (req, res) => {
         })
 })
 
-//FIXED GET RSOS
+//needs fixing, have to show only RSO-s at university that user attends
 router.get('/rso', verifyToken, (req, res) => {
-    connection.query(`SELECT * FROM joins WHERE user_id = "${req.user.user_id}"`, (err, response) => {
+    connection.query('SELECT * FROM rsos', (err, response) => {
         if (err) {
             return res.status(500).json({ err: err })
         } else {
