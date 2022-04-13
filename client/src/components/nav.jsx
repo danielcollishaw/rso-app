@@ -16,7 +16,8 @@ class Nav extends React.Component {
         ...this.state,
         organize: <a className="nav-item nav-link text-dark" href="/organize">Organize Event</a>,
         login: <a onClick={() => localStorage.clear()} className="nav-item nav-link text-dark" href="/login">Logout</a>,
-        found: <a className="nav-item nav-link text-dark" href="/university">Create University</a>
+        found: <a className="nav-item nav-link text-dark" href="/university">Create University</a>,
+        join: <a className="nav-item nav-link text-dark" href="/attend">Join University</a>
       };
     }
   }
@@ -26,6 +27,7 @@ class Nav extends React.Component {
       <div className="navbar justify-content-end border-bottom border-dark">
         {this.state.organize}
         {this.state.found}
+        {this.state.join}
         <a className="nav-item nav-link text-dark" href="/">Home</a>
         {this.state.login}
       </div>

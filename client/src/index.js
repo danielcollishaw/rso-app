@@ -10,6 +10,7 @@ import Login from './Login';
 import Register from './Register';
 import Organize from './Organize';
 import Found from "./Found";
+import Attend from "./Attend";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,6 +21,7 @@ ReactDOM.render(
         <Route exact path="/register" element={<Register />}></Route>
         <Route exact path="/organize" element={<Organize />}></Route>
         <Route exact path="/university" element={<Found />}></Route>
+        <Route exact path="/attend" element={<Attend />}></Route>
       </Routes>
     </Router>
   </React.StrictMode>,
