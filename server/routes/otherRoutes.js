@@ -71,7 +71,7 @@ router.post('/rso', verifyToken, isAdmin, (req, res) => {
 })
 //should be fixed now
 router.get('/rso', verifyToken, (req, res) => {
-    connection.query(`SELECT rsos FROM rsos R, attends A, admins AD WHERE A.user_id = "${req.user.user_id}" AND A.uni_id = AD.uni_id AND AD.user_id = R.user_id`, (err, response) => {
+    connection.query(`SELECT rsos.* FROM rsos R, attends A, admins AD WHERE A.user_id = "${req.user.user_id}" AND A.uni_id = AD.uni_id AND AD.user_id = R.user_id`, (err, response) => {
         if (err) {
             return res.status(500).json({ err: err })
         } else {
