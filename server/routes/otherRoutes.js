@@ -80,8 +80,64 @@ router.get('/rso', verifyToken, (req, res) => {
     })
 })
 
-//needs fixing, have to check if user attends the university the RSO belongs to
+
+
+//tentative fix, needs checking, old solutiuon commented out down below
 router.post('/rso/:rso_id', verifyToken, (req, res) => {
+    const { rso_id } = req.params
+
+    connection.query(`SELECT * FROM rsos WHERE rso_id="${rso_id}"`, (err, response) => {
+        if (err) {
+            return res.status(500).json({ err: err })
+        } else {
+
+            //check if user attends the university the RSO belongs to
+            connection.query(`SELECT A.user_id FROM rsos R, attends A, admins AD WHERE R.rso_id="${rso_id}" AND R.user_id = AD.user_id AND AD.uni_id = A.uni_id AND A.user_id = "${req.user.user_id}"`, (err2, response2) => {
+                if (err2) {
+                    return res.status(500).json({ err: err2 })
+                }
+
+                if (!response2.length) {
+                    return res.status(500).json({
+                        err: 'User does not attend the University'
+                    })
+                }
+            })
+
+            //check if admin tries to join an RSO
+            if (req.user.user_id == response[0].user_id) {
+                return res.status(500).json({ err: 'Cannot join RSO that you are admin of' })
+            }
+
+            //check if user is already in that RSO
+            connection.query(`SELECT * FROM joins WHERE rso_id="${rso_id}"`, (err3, response3) => {
+                if (err3) {
+                    return res.status(500).json({ err: err3 })
+                } else {
+
+                    for (let join of response3) {
+                        if (join.user_id == req.user.user_id) {
+                            return res.status(500).json({ err: 'Cannot join RSO that you have already joined' })
+                        }
+                    }
+
+                    connection.query(`INSERT INTO joins (user_id, rso_id, admin_id) VALUES ("${req.user.user_id}", "${rso_id}", "${response[0].user_id}")`, (err4, response4) => {
+                        if (err4) {
+                            return res.status(500).json({ err: err4 })
+                        } else {
+                            return res.status(200).json({ response: response4, err: '' })
+                        }
+                    })
+                }
+            })
+
+        }
+    })
+})
+
+
+//needs fixing, have to check if user attends the university the RSO belongs to
+/*router.post('/rso/:rso_id', verifyToken, (req, res) => {
     const { rso_id } = req.params
 
     connection.query(`SELECT * FROM rsos WHERE rso_id="${rso_id}"`, (err, response) => {
@@ -118,7 +174,7 @@ router.post('/rso/:rso_id', verifyToken, (req, res) => {
 
         }
     })
-})
+})*/
 
 
 module.exports = router
