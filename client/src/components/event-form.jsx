@@ -136,10 +136,7 @@ class EventForm extends React.Component {
   };
 
   handleSubmit = async (e) => {
-    console.log("pinging")
     const res = await this.postEvent();
-
-    console.log(res)
 
     if (res.err) {
       if (res.err.message)
