@@ -67,7 +67,7 @@ class JoinUni extends React.Component {
     const get = await fetch("/university", msg)
     const res = await get.json()
 
-    return res.slice(1)
+    return res
   }
 
   postAttend = async () => {
