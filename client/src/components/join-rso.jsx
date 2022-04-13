@@ -93,7 +93,6 @@ class JoinRso extends React.Component {
     }
 
     const res = await this.postJoin();
-    console.log(res)
 
     if (res.err) {
       if (res.err.message)
