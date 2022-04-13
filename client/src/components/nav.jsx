@@ -4,6 +4,8 @@ class Nav extends React.Component {
   state = {
     organize: null,
     found: null,
+    join: null,
+    rso: null
   };
 
   constructor() {
@@ -17,7 +19,8 @@ class Nav extends React.Component {
         organize: <a className="nav-item nav-link text-dark" href="/organize">Organize Event</a>,
         login: <a onClick={() => localStorage.clear()} className="nav-item nav-link text-dark" href="/login">Logout</a>,
         found: <a className="nav-item nav-link text-dark" href="/university">Create University</a>,
-        join: <a className="nav-item nav-link text-dark" href="/attend">Join University</a>
+        join: <a className="nav-item nav-link text-dark" href="/attend">Join University</a>,
+        rso: <a className="nav-item nav-link text-dark" href="/join">Join RSOs</a>
       };
     }
   }
@@ -28,6 +31,7 @@ class Nav extends React.Component {
         {this.state.organize}
         {this.state.found}
         {this.state.join}
+        {this.state.rso}
         <a className="nav-item nav-link text-dark" href="/">Home</a>
         {this.state.login}
       </div>

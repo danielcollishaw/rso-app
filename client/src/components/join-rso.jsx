@@ -1,23 +1,22 @@
 import React from "react";
 
-class JoinUni extends React.Component {
+class JoinRso extends React.Component {
   constructor() {
     super()
 
     this.state = {
-      uni_id: "",
+      rso_id: "",
       token: localStorage.getItem("token"),
       user_id: localStorage.getItem("user_id"),
-      universities: [],
+      rsos: [],
       refresh: -1
     };
   }
 
   async componentDidMount() {
-    const res = await this.getUniversities();
-
+    const res = await this.getRsos();
     if (res)
-      this.setState({universities: res})
+      this.setState({rsos: res})
   }
 
   render() {
@@ -25,16 +24,16 @@ class JoinUni extends React.Component {
       <div>
         <form className="card border-3">
           <div className="card-header">
-            <h1 className="text-center text-muted mb-0">Join University</h1>
+            <h1 className="text-center text-muted mb-0">Join RSOs</h1>
           </div>
 
           <div className="container w-75 p-3">
             <div className="input-group mb-5">
-              <label className="input-group-text" htmlFor="groupSelect">University</label>
+              <label className="input-group-text" htmlFor="groupSelect">RSOs</label>
               <select onChange={this.handleId} className="form-select" id="groupSelect">
                 <option value="none">Choose...</option>
-                {this.state.universities.map(uni => (
-                  <option key={uni.uni_id} value={uni.uni_id}>{uni.name}</option>
+                {this.state.rsos.map(rso => (
+                  <option key={rso.rso_id} value={rso.rso_id}>{rso.name}</option>
                 ))}
               </select>
             </div>
@@ -56,23 +55,23 @@ class JoinUni extends React.Component {
     );
   }
 
-  handleId = (e) => {
-    this.setState({uni_id: e.target.value});
-  };
-
-  getUniversities = async () => {
+  getRsos = async () => {
     const msg = {
       method: "GET",
       headers: {"Content-Type": "application/json", "Authorization": this.state.token}
     };
 
-    const get = await fetch("/university", msg);
+    const get = await fetch("/rso", msg);
     const res = await get.json();
 
-    return res;
-  }
+    return res.response;
+  };
 
-  postAttend = async () => {
+  handleId = (e) => {
+    this.setState({rso_id: e.target.value});
+  };
+
+  postJoin = async () => {
     const msg = {
       method: "POST",
       headers: {"Content-Type": "application/json", "Authorization": this.state.token},
@@ -82,18 +81,19 @@ class JoinUni extends React.Component {
 
     console.log(this.state.uni_id)
 
-    const post = await fetch("/university/" + this.state.uni_id, msg);
+    const post = await fetch("/rso/" + this.state.rso_id, msg);
     const res = await post.json()
     return res;
   };
 
   handleSubmit = async (e) => {
-    if (this.state.uni_id === "") {
-      this.setState({alert: "please pick a university"});
-      return;
+    if (this.state.rso_id === "") {
+      this.setState({alert: "please pick a rso"})
+      return
     }
 
-    const res = await this.postAttend();
+    const res = await this.postJoin();
+    console.log(res)
 
     if (res.err) {
       if (res.err.message)
@@ -102,10 +102,11 @@ class JoinUni extends React.Component {
         this.setState({alert: res.err})
     }
 
-    if (res.affectedRows > 0) {
-      this.setState({alert: "Joined", refresh: 1});
-    }
+    if (res.response)
+      if (res.response.affectedRows > 0)
+        this.setState({alert: "Joined", refresh: 1});
+
   };
 }
 
-export default JoinUni;
+export default JoinRso;
