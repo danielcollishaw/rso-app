@@ -116,6 +116,18 @@ eventRouter.post('/events/:event_id/reviews', verifyToken, (req, res) => {
 
 })
 
+//get reviews
+eventRouter.get('/events/:event_id/reviews', verifyToken, (req, res) => {
+    const { event_id } = req.params
+
+    connection.query(`SELECT * FROM rates WHERE event_id = "${event_id}"`, (err, result) => {
+        if (err) {
+            res.status(500).json({ err: `smth happened on the server, ${err}` })
+        } else {
+            res.status(200).json(result)
+        }
+    });
+});
 
 //update rating/comments
 eventRouter.put('/events/:event_id/reviews/:review_id', verifyToken, (req, res) => {
