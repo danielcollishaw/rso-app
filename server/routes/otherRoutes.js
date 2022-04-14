@@ -60,19 +60,25 @@ router.post('/university/:university_id', verifyToken, (req, res) => {
 router.post('/rso', verifyToken, (req, res) => {
     const { name, email } = req.body
     const rso_id = uuidv4()
-    connection.query(
-        `INSERT INTO rsos (user_id, rso_id, name, email, activity) VALUES ( "${req.user.user_id}", "${rso_id}", "${name}", "${email}", "inactive")`
-        , (err, response) => {
-            if (err) {
-                return res.status(500).json({ err: err })
-            } else {
-                console.log(response)
-                connection.query(`INSERT INTO joins (user_id, rso_id, admin_id) VALUES ("${req.user.user_id}", "${rso_id}", "${req.user.user_id}")`, (err2, response2) => {
-                    if (err2) return res.status(500).json({ err2 })
-                    return res.status(200).json({ response: response2, err: '' })
+
+    connection.query(`SELECT * from attends WHERE user_id = "${req.user.user_id}"`, (err0, response0) => {
+        if (err0) return res.status(500).json({ err: err0 })
+        connection.query(`INSERT INTO admins (user_id, uni_id) VALUES ("${req.user.user_id}", "${response0[0].uni_id}")`, (err1, response1) => {
+            if (err1) return res.status(500).json({ err: err1 })
+            connection.query(
+                `INSERT INTO rsos (user_id, rso_id, name, email, activity) VALUES ( "${req.user.user_id}", "${rso_id}", "${name}", "${email}", "inactive")`
+                , (err, response) => {
+                    if (err) {
+                        return res.status(500).json({ err: err })
+                    } else {
+                        connection.query(`INSERT INTO joins (user_id, rso_id, admin_id) VALUES ("${req.user.user_id}", "${rso_id}", "${req.user.user_id}")`, (err2, response2) => {
+                            if (err2) return res.status(500).json({ err2 })
+                            return res.status(200).json({ response: response2, err: '' })
+                        })
+                    }
                 })
-            }
         })
+    })
 })
 
 router.get('/rso', verifyToken, (req, res) => {
