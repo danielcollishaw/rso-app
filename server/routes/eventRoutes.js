@@ -35,7 +35,7 @@ eventRouter.get('/events', verifyToken, (req, res) => {
             res.status(200).json(result)
         }
     })
-})
+})*/
 
 //needs fixing as it does not check if u r RSO member or attend the uni
 eventRouter.get('/events/:event_id', verifyToken, (req, res) => {
@@ -48,7 +48,7 @@ eventRouter.get('/events/:event_id', verifyToken, (req, res) => {
         }
     })
 
-})*/
+})
 
 eventRouter.post('/events', verifyToken, isAdmin, (req, res) => {
     const { date_time, phone, email, name, type_of, description, start_time, address } = req.body
