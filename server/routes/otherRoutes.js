@@ -56,16 +56,21 @@ router.post('/university/:university_id', verifyToken, (req, res) => {
     )
 })
 
-
-router.post('/rso', verifyToken, isAdmin, (req, res) => {
+//user should create an RSO and after creating it become an admin. 1 admin - 1 rso
+router.post('/rso', verifyToken, (req, res) => {
     const { name, email } = req.body
+    const rso_id = uuidv4()
     connection.query(
-        `INSERT INTO rsos (user_id, rso_id, name, email) VALUES ( "${req.user.user_id}", "${uuidv4()}", "${name}", "${email}")`
+        `INSERT INTO rsos (user_id, rso_id, name, email, activity) VALUES ( "${req.user.user_id}", "${rso_id}", "${name}", "${email}", "inactive")`
         , (err, response) => {
             if (err) {
                 return res.status(500).json({ err: err })
             } else {
-                return res.status(200).json({ response: response, err: '' })
+                console.log(response)
+                connection.query(`INSERT INTO joins (user_id, rso_id, admin_id) VALUES ("${req.user.user_id}", "${rso_id}", "${req.user.user_id}")`, (err2, response2) => {
+                    if (err2) return res.status(500).json({ err2 })
+                    return res.status(200).json({ response: response2, err: '' })
+                })
             }
         })
 })
@@ -82,7 +87,7 @@ router.get('/rso', verifyToken, (req, res) => {
 
 
 
-//tentative fix, needs checking, old solutiuon commented out down below
+//tentative fix, needs checking, old solution commented out down below
 router.post('/rso/:rso_id', verifyToken, (req, res) => {
     const { rso_id } = req.params
 
@@ -103,11 +108,6 @@ router.post('/rso/:rso_id', verifyToken, (req, res) => {
                     })
                 }
             })
-
-            //check if admin tries to join an RSO
-            if (req.user.user_id == response[0].user_id) {
-                return res.status(500).json({ err: 'Cannot join RSO that you are admin of' })
-            }
 
             //check if user is already in that RSO
             connection.query(`SELECT * FROM joins WHERE rso_id="${rso_id}"`, (err3, response3) => {
