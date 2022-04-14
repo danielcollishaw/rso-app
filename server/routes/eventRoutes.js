@@ -99,7 +99,7 @@ eventRouter.post('/events/:event_id/reviews', verifyToken, (req, res) => {
 eventRouter.put('/events/:event_id/reviews/:review_id', verifyToken, (req, res) => {
     const { comment, rating, time } = req.body
     connection.query(
-        `UPDATE rates SET comment="${comment}", rating="${rating}", time="${time}" WHERE rate_id="${req.params.rate_id}"`
+        `UPDATE rates SET comment="${comment}", rating="${rating}", time="${time}" WHERE rate_id="${req.params.rate_id}" AND event_id="${req.params.event_id}"`
         , (err, response) => {
             if (err) {
                 return res.status(500).json({ err: err })
@@ -109,6 +109,19 @@ eventRouter.put('/events/:event_id/reviews/:review_id', verifyToken, (req, res) 
         })
 })
 
+
+//delete rating/comments
+eventRouter.delete('/events/:event_id/reviews/:review_id', verifyToken, (req, res) => {
+    connection.query(
+        `DELETE FROM RATES WHERE rate_id="${req.params.rate_id}" AND event_id="${req.params.event_id}"`
+        , (err, response) => {
+            if (err) {
+                return res.status(500).json({ err: err })
+            } else {
+                return res.status(200).json({ response: response, err: '' })
+            }
+        })
+})
 
 
 module.exports = eventRouter;
