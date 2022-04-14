@@ -79,12 +79,12 @@ eventRouter.delete('/events/:event_id', verifyToken, isAdmin, isSpecificAdmin, (
 
 //post reviews
 eventRouter.post('/events/:event_id/reviews', verifyToken, (req, res) => {
+    const rate_id = uuidv4()
     const { event_id } = req.params
-
     const { comment, rating, time } = req.body
 
     connection.query(
-        `INSERT INTO rates (user_id, event_id, comment, rating, time) VALUES ("${req.user.user_id}", "${event_id}", "${comment}", "${rating}", "${time}")`, (err, result) => {
+        `INSERT INTO rates (user_id, event_id, comment, rating, time) VALUES ("${rate_id}", "${req.user.user_id}", "${event_id}", "${comment}", "${rating}", "${time}")`, (err, result) => {
         if (err) {
             res.status(500).json({ err: `smth happened on the server, ${err}` })
         } else {
