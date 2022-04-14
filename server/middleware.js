@@ -70,12 +70,18 @@ module.exports.isSuperAdmin = (req, res, next) => {
     })
 }
 
-module.exports.isRSOMember = (req, res, next) => {
 
-}
+module.exports.isReviewAuthor = (req, res, next) => {
+    const { review_id, event_id } = req.params
 
-
-
-module.exports.attendsUniversity = (req, res, next) => {
-
+    connection.query(`SELECT * from rates WHERE event_id = "${event_id} AND "rate_id = "${review_id}" AND user_id = "${req.user.user_id}"`, (err, response) => {
+        if (err) return res.status(500).json({ err: err })
+        else {
+            if (response.length > 0) {
+                return next()
+            } else {
+                return res.status(500).json({ err: "you can only update the comments that yop have made" })
+            }
+        }
+    })
 }

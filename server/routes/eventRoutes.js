@@ -1,5 +1,5 @@
 const eventRouter = require('express').Router();
-const { verifyToken, isAdmin, isSpecificAdmin } = require('../middleware');
+const { verifyToken, isAdmin, isSpecificAdmin, isReviewAuthor } = require('../middleware');
 const AppError = require('../utils/AppError');
 const connection = require('../db')
 const { v4: uuidv4 } = require('uuid')
@@ -10,19 +10,19 @@ eventRouter.get('/events', verifyToken, (req, res) => {
     //show public events
     connection.query(
         //first query is public, 2nd query is private, 3rd query is RSO
-       `SELECT E.* FROM events E WHERE E.type_of = "PUBLIC" 
+        `SELECT E.* FROM events E WHERE E.type_of = "PUBLIC" 
         UNION
         SELECT E1.* FROM events E1, organizes O, admins AD, attends A WHERE A.user_id = "${req.user.user_id}" AND A.uni_id = AD.uni_id AND AD.user_id = O.user_id AND O.event_id = E1.event_id AND E1.type_of = "PRIVATE"
         UNION
         SELECT E2.* FROM events E2, rsos R, organizes O1, joins J WHERE J.user_id = "${req.user.user_id}" AND J.rso_id = R.rso_id AND R.user_id = O1.user_id AND O1.event_id = E2.event_id AND E2.type_of = "RSO"
         `
-            , (err, result) => {
-                if (err) {
-                    res.status(500).json({ err: `smth happened on the server, ${err}` })
-                } else {
-                    res.status(200).json(result)
-                }
-    })
+        , (err, result) => {
+            if (err) {
+                res.status(500).json({ err: `smth happened on the server, ${err}` })
+            } else {
+                res.status(200).json(result)
+            }
+        })
 })
 
 
@@ -107,12 +107,12 @@ eventRouter.post('/events/:event_id/reviews', verifyToken, (req, res) => {
 
     connection.query(
         `INSERT INTO rates (user_id, event_id, comment, rating, time) VALUES ("${rate_id}", "${req.user.user_id}", "${event_id}", "${comment}", "${rating}", "${time}")`, (err, result) => {
-        if (err) {
-            res.status(500).json({ err: `smth happened on the server, ${err}` })
-        } else {
-            res.status(200).json(result)
-        }
-    })
+            if (err) {
+                res.status(500).json({ err: `smth happened on the server, ${err}` })
+            } else {
+                res.status(200).json(result)
+            }
+        })
 
 })
 
@@ -130,7 +130,7 @@ eventRouter.get('/events/:event_id/reviews', verifyToken, (req, res) => {
 });
 
 //update rating/comments
-eventRouter.put('/events/:event_id/reviews/:review_id', verifyToken, (req, res) => {
+eventRouter.put('/events/:event_id/reviews/:review_id', verifyToken, isReviewAuthor, (req, res) => {
     const { comment, rating, time } = req.body
     connection.query(
         `UPDATE rates SET comment="${comment}", rating="${rating}", time="${time}" WHERE rate_id="${req.params.rate_id}" AND event_id="${req.params.event_id}"`
@@ -145,7 +145,7 @@ eventRouter.put('/events/:event_id/reviews/:review_id', verifyToken, (req, res) 
 
 
 //delete rating/comments
-eventRouter.delete('/events/:event_id/reviews/:review_id', verifyToken, (req, res) => {
+eventRouter.delete('/events/:event_id/reviews/:review_id', verifyToken, isReviewAuthor, (req, res) => {
     connection.query(
         `DELETE FROM RATES WHERE rate_id="${req.params.rate_id}" AND event_id="${req.params.event_id}"`
         , (err, response) => {
