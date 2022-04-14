@@ -85,3 +85,17 @@ module.exports.isReviewAuthor = (req, res, next) => {
         }
     })
 }
+
+module.exports.isActiveRSO = (req, res, next) => {
+    connection.query(`SELECT * from rsos WHERE user_id="${req.user.user_id}"`, (err, response) => {
+        if (err) return res.status(500).json({ err })
+        else {
+            if (response[0].activity == "inactive") {
+                return res.status(500).json({ err: 'only active RSO-s can create events' })
+            }
+            else {
+                return next()
+            }
+        }
+    })
+}

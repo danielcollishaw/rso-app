@@ -1,5 +1,5 @@
 const eventRouter = require('express').Router();
-const { verifyToken, isAdmin, isSpecificAdmin, isReviewAuthor } = require('../middleware');
+const { verifyToken, isAdmin, isSpecificAdmin, isReviewAuthor, isActiveRSO } = require('../middleware');
 const AppError = require('../utils/AppError');
 const connection = require('../db')
 const { v4: uuidv4 } = require('uuid')
@@ -50,7 +50,7 @@ eventRouter.get('/events/:event_id', verifyToken, (req, res) => {
 
 })
 
-eventRouter.post('/events', verifyToken, isAdmin, (req, res) => {
+eventRouter.post('/events', verifyToken, isAdmin, isActiveRSO, (req, res) => {
     const { date_time, phone, email, name, type_of, description, start_time, address } = req.body
     const event_id = uuidv4()
 
