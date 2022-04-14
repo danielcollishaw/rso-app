@@ -95,4 +95,20 @@ eventRouter.post('/events/:event_id/reviews', verifyToken, (req, res) => {
 })
 
 
+//update rating/comments
+eventRouter.put('/events/:event_id/reviews/:review_id', verifyToken, (req, res) => {
+    const { comment, rating, time } = req.body
+    connection.query(
+        `UPDATE rates SET comment="${comment}", rating="${rating}", time="${time}" WHERE rate_id="${req.params.rate_id}"`
+        , (err, response) => {
+            if (err) {
+                return res.status(500).json({ err: err })
+            } else {
+                return res.status(200).json({ response: response, err: '' })
+            }
+        })
+})
+
+
+
 module.exports = eventRouter;
