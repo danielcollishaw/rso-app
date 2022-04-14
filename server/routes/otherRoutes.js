@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const AppError = require('../utils/AppError');
 const connection = require('../db')
-const { verifyToken, isSuperAdmin, isAdmin } = require('../middleware');
+const { verifyToken, isSuperAdmin, isAdmin, isAlreadyAdmin } = require('../middleware');
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -57,7 +57,7 @@ router.post('/university/:university_id', verifyToken, (req, res) => {
 })
 
 //user should create an RSO and after creating it become an admin. 1 admin - 1 rso
-router.post('/rso', verifyToken, (req, res) => {
+router.post('/rso', verifyToken, isAlreadyAdmin, (req, res) => {
     const { name, email } = req.body
     const rso_id = uuidv4()
 

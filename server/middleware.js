@@ -99,3 +99,14 @@ module.exports.isActiveRSO = (req, res, next) => {
         }
     })
 }
+
+module.exports.isAlreadyAdmin = (req, res, next) => {
+    connection.query(`SELECT * from admins WHERE user_id="${req.user.user_id}"`, (err, response) => {
+        if (err) return res.status(500).json({ err: err })
+        if (response.length > 0) {
+            return res.status(500).json({ err: 'you are already an admin for an rso. 1 admin - 1 rso. You can join other rso-s though' })
+        } else {
+            return next()
+        }
+    })
+}
