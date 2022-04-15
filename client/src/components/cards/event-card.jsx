@@ -101,6 +101,11 @@ class EventCard extends React.Component {
                     <span className="userName m-2">user121</span>
                     <span className="m-2">-</span>
                     <span className="timeStamp m-2">{this.getTimeSince(comment.time.split("T")[0])}</span>
+                    <a
+                      onClick={() => this.postDel(comment.rate_id)}
+                      className="text-primary position-absolute end-0 m-3 mt-0">
+                      {(comment.user_id === this.state.user_id) ? "delete" : null}
+                    </a>
                   </span></p>
                 </div>
               ))}
@@ -116,9 +121,21 @@ class EventCard extends React.Component {
     this.setState({comment: e.target.value})
   };
 
+  postDel = async (rate_id) => {
+    const msg = {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json", "Authorization": this.state.token},
+    };
+
+    const post = await fetch("/events/" + this.state.event_id + "/reviews/" + rate_id, msg);
+    const res = await post.json();
+
+    console.log(res)
+  }
+
   postReview = async () => {
     const msg = {
-      method: "post",
+      method: "POST",
       headers: {"Content-Type": "application/json", "Authorization": this.state.token},
       body: JSON.stringify({
         comment: this.state.comment,

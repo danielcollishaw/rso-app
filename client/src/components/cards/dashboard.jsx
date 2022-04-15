@@ -65,10 +65,21 @@ class Dashboard extends React.Component {
     }
 
     this.setState({open:
-      <EventCard data={data}></EventCard>
+      <div>
+        <h1 style={{"zindex": "9999"}}
+          onClick={this.closeEvent}
+          className="position-absolute start-50 mt-5 m-2 pt-3">
+          <i className="bi bi-x-square"></i>
+        </h1>
+        <EventCard data={data}></EventCard>
+      </div>
     });
 
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  closeEvent = () => {
+    this.setState({open: ""})
   }
 }
 
