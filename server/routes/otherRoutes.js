@@ -1,20 +1,8 @@
 const router = require('express').Router();
 const AppError = require('../utils/AppError');
 const connection = require('../db')
-const { verifyToken, isSuperAdmin, isAlreadyAdmin, isRSOMember } = require('../middleware');
+const { verifyToken, isSuperAdmin, isAdmin, isAlreadyAdmin, isRSOMember } = require('../middleware');
 const { v4: uuidv4 } = require('uuid');
-
-
-router.get('/user/:user_id', verifyToken, (req, res) => {
-    const { user_id } = req.params
-    connection.query(`SELECT username FROM users WHERE user_id="${user_id}"`, (err, result) => {
-        if (err) {
-            res.status(500).json({ err: `oh no something happened, ${err}` })
-        } else {
-            res.status(200).json(result)
-        }
-    });
-})
 
 
 router.post('/university', verifyToken, isSuperAdmin, (req, res) => {
@@ -76,7 +64,6 @@ router.post('/rso', verifyToken, isAlreadyAdmin, (req, res) => {
 
     connection.query(`SELECT * from attends WHERE user_id = "${req.user.user_id}"`, (err0, response0) => {
         if (err0) return res.status(500).json({ err: err0 })
-        console.log(response0)
         connection.query(`INSERT INTO admins (user_id, uni_id) VALUES ("${req.user.user_id}", "${response0[0].uni_id}")`, (err1, response1) => {
             if (err1) return res.status(500).json({ err: err1 })
             connection.query(
@@ -226,4 +213,3 @@ router.delete('/rso/:rso_id', verifyToken, isRSOMember, (req, res) => {
 
 
 module.exports = router
-
