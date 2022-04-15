@@ -132,7 +132,7 @@ eventRouter.get('/events/:event_id/reviews', verifyToken, (req, res) => {
 //update rating/comments
 eventRouter.put('/events/:event_id/reviews/:review_id', verifyToken, isReviewAuthor, (req, res) => {
     connection.query(
-        `UPDATE rates SET comment="${comment}", rating="${rating}", time="${time}" WHERE rate_id="${req.params.review_id}" AND event_id="${req.params.event_id}"`
+        `UPDATE rates SET comment="${comment}", rating="${rating}", time="${time}" WHERE rate_id="${req.params.rate_id}" AND event_id="${req.params.event_id}"`
         , (err, response) => {
             if (err) {
                 return res.status(500).json({ err: err })
