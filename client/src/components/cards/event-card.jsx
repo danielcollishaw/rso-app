@@ -104,7 +104,7 @@ class EventCard extends React.Component {
                     <a
                       onClick={() => this.postDel(comment.rate_id)}
                       className="text-primary position-absolute end-0 m-3 mt-0">
-                      {(comment.user_id === this.state.user_id) ? "delete" : null}
+                      {(comment.user_id === this.state.user_id) ? <i className="bi bi-trash-fill"></i> : null}
                     </a>
                   </span></p>
                 </div>
@@ -130,7 +130,12 @@ class EventCard extends React.Component {
     const post = await fetch("/events/" + this.state.event_id + "/reviews/" + rate_id, msg);
     const res = await post.json();
 
-    console.log(res)
+    if (res.response.affectedRows > 0) {
+      this.setState({alert: "Comment deleted"});
+      const refresh = await this.getReviews()
+      this.setState({comments: refresh.sort(function(a,b){return a.time < b.time})});
+      this.calcRating();
+    }
   }
 
   postReview = async () => {

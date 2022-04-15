@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
 
     this.setState({open:
       <div>
-        <h1 style={{"zindex": "9999"}}
+        <h1 style={{"z-index": "9999"}}
           onClick={this.closeEvent}
           className="position-absolute start-50 mt-5 m-2 pt-3">
           <i className="bi bi-x-square"></i>
