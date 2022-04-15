@@ -63,7 +63,7 @@ class Register extends React.Component {
 
     handleSubmit = async (e) => {
         const res = await this.postRegister();
-
+        console.log(res)
         if (res.err)
             this.setState({alert: res.err});
 

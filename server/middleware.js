@@ -6,11 +6,11 @@ const connection = require("./db");
 module.exports.validateRegister = (req, res, next) => {
     // username min length 3
     if (!req.body.username || req.body.username.length < 3) {
-        throw new AppError('Please enter a username with min. 3 chars', 400)
+        return res.status(400).json({err: "Please enter a username with min. 3 chars"})
     }
     // password min 6 chars
     if (!req.body.password || req.body.password.length < 6) {
-        throw new AppError('Please enter a password with min. 6 chars', 400)
+        return res.status(400).json({err: "Please enter a password with min. 6 chars"})
     }
     next();
 };
