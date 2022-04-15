@@ -98,7 +98,7 @@ class EventCard extends React.Component {
                 <div key={comment.rate_id} className="card mt-3">
                   <p className="row m-3 mb-0 card-text fs-5">{comment.comment}</p>
                   <p className="row m-2 mt-1 mb-1 card-text justify-content-end"><span className="bi bi-person-circle fs-6">
-                    <span className="userName m-2">user121</span>
+                    <span className="userName m-2">{this.getUser(comment.user_id)}</span>
                     <span className="m-2">-</span>
                     <span className="timeStamp m-2">{this.getTimeSince(comment.time.split("T")[0])}</span>
                     <a
@@ -121,10 +121,22 @@ class EventCard extends React.Component {
     this.setState({comment: e.target.value})
   };
 
+  getUser = async (user_id) => {
+    const msg = {
+      method: "GET",
+      headers: {"Content-Type": "application/json", "Authorization": this.state.token}
+    };
+
+    const get = await fetch("/users/" + user_id, msg);
+    const res = await get.json();
+
+    console.log(res)
+  }
+
   postDel = async (rate_id) => {
     const msg = {
       method: "DELETE",
-      headers: {"Content-Type": "application/json", "Authorization": this.state.token},
+      headers: {"Content-Type": "application/json", "Authorization": this.state.token}
     };
 
     const post = await fetch("/events/" + this.state.event_id + "/reviews/" + rate_id, msg);

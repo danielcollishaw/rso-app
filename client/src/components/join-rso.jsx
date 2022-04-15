@@ -84,8 +84,6 @@ class JoinRso extends React.Component {
     const post = await fetch("/rso/" + this.state.rso_id, msg);
     const res = await post.json()
 
-    console.log(res)
-
     if (res.err) {
       if (res.err.message)
         this.setState({alert: res.err.message});
