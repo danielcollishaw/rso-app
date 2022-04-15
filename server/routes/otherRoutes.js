@@ -1,8 +1,20 @@
 const router = require('express').Router();
 const AppError = require('../utils/AppError');
 const connection = require('../db')
-const { verifyToken, isSuperAdmin, isAdmin, isAlreadyAdmin, isRSOMember } = require('../middleware');
+const { verifyToken, isSuperAdmin, isAlreadyAdmin, isRSOMember } = require('../middleware');
 const { v4: uuidv4 } = require('uuid');
+
+
+router.get('/user/:user_id', verifyToken, (req, res) => {
+    const { user_id } = req.params
+    connection.query(`SELECT username FROM users WHERE user_id="${user_id}"`, (err, result) => {
+        if (err) {
+            res.status(500).json({ err: `oh no something happened, ${err}` })
+        } else {
+            res.status(200).json(result)
+        }
+    });
+})
 
 
 router.post('/university', verifyToken, isSuperAdmin, (req, res) => {
