@@ -10,7 +10,6 @@ class University extends React.Component {
       website: "",
       desc: "",
       students: "",
-      alert: "",
       refresh: -1,
       token: localStorage.getItem("token"),
       user_id: localStorage.getItem("user_id")
@@ -105,7 +104,7 @@ class University extends React.Component {
   handleSubmit = async (e) => {
     // Checks for empty fields to prevent empty creations
     const strState = JSON.stringify(this.state).slice(1, -1).split(",")
-    console.log(strState)
+
     for (let i = 0; i < strState.length; i++) {
       if (strState[i].split(":")[1] === "\"\"")
       {

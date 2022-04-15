@@ -13,7 +13,6 @@ class EventForm extends React.Component {
       date: "",
       time: "",
       type: "",
-      alert: "",
       refresh: -1,
       token: localStorage.getItem("token"),
       user_id: localStorage.getItem("user_id")
@@ -147,7 +146,6 @@ class EventForm extends React.Component {
     }
 
     const res = await this.postEvent();
-
     if (res.err) {
       if (res.err.message)
         this.setState({alert: res.err.message});

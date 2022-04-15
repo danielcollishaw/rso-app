@@ -45,16 +45,19 @@ class EventCard extends React.Component {
       res.sort(function(a,b){return a.time < b.time})
       for (let i = 0; i < res.length; i++)
       {
-        const username = await this.getUser(res[i].user_id);
+        let username = await this.getUser(res[i].user_id);
+
+        if (!username)
+          username = "user"
+
         res[i]["username"] = username;
       }
 
-
       this.setState({comments: res});
       this.calcRating();
-
     }
   }
+
 
   render() {
     return (
