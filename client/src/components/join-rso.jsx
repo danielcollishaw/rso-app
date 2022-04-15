@@ -42,6 +42,10 @@ class JoinRso extends React.Component {
                <button onClick={this.handleSubmit} className="btn btn-outline-primary rounded-pill" type="button">
                  Join
               </button>
+
+              <button onClick={this.postLeave} className="btn btn-outline-primary rounded-pill mt-3" type="button">
+                Leave
+             </button>
             </div>
 
             <div className="text-center">
@@ -70,6 +74,29 @@ class JoinRso extends React.Component {
   handleId = (e) => {
     this.setState({rso_id: e.target.value});
   };
+
+  postLeave = async () => {
+    const msg = {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json", "Authorization": this.state.token},
+    };
+
+    const post = await fetch("/rso/" + this.state.rso_id, msg);
+    const res = await post.json()
+
+    console.log(res)
+
+    if (res.err) {
+      if (res.err.message)
+        this.setState({alert: res.err.message});
+      else
+        this.setState({alert: res.err})
+    }
+
+    if (res.response)
+      if (res.response.affectedRows > 0)
+        this.setState({alert: "Left", refresh: 1});
+  }
 
   postJoin = async () => {
     const msg = {

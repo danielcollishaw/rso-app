@@ -191,7 +191,7 @@ router.delete('/rso/:rso_id', verifyToken, isRSOMember, (req, res) => {
         if (err1) return res.status(500).json({ err1 })
 
         //if admin tries to leave, then delete the RSO
-        if (response1[0].user_id == req.user.user_id) {
+        if (response1.length > 0 && response1[0].user_id == req.user.user_id) {
             connection.query(`DELETE FROM rsos WHERE user_id="${req.user.user_id}" AND rso_id="${rso_id}"`, (err2, response2) => {
                 if (err2) return res.status(500).json({ err2 })
                 return res.status(200).json({ response: response2, err: '' })

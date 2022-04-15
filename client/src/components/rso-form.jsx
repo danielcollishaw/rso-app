@@ -75,7 +75,7 @@ class RsoForm extends React.Component {
   handleSubmit = async (e) => {
     // Checks for empty fields to prevent empty creations
     const strState = JSON.stringify(this.state).slice(1, -1).split(",")
-    console.log(strState)
+
     for (let i = 0; i < strState.length; i++) {
       if (strState[i].split(":")[1] === "\"\"")
       {
@@ -83,7 +83,7 @@ class RsoForm extends React.Component {
         return;
       }
     }
-    
+
     const res = await this.postRso();
 
     if (res.err) {

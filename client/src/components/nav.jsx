@@ -20,7 +20,7 @@ class Nav extends React.Component {
         login: <a onClick={() => localStorage.clear()} className="nav-item nav-link text-dark" href="/login">Logout</a>,
         found: <a className="nav-item nav-link text-dark" href="/university">Create University</a>,
         join: <a className="nav-item nav-link text-dark" href="/attend">Join University</a>,
-        rso: <a className="nav-item nav-link text-dark" href="/join">Join RSOs</a>,
+        rso: <a className="nav-item nav-link text-dark" href="/join">Manage RSOs</a>,
         create: <a className="nav-item nav-link text-dark" href="/create">Create RSO</a>
       };
     }
