@@ -12,6 +12,7 @@ import Organize from './Organize';
 import Found from "./Found";
 import Attend from "./Attend";
 import Join from "./Join";
+import Create from "./Create";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,6 +25,7 @@ ReactDOM.render(
         <Route exact path="/university" element={<Found />}></Route>
         <Route exact path="/attend" element={<Attend />}></Route>
         <Route exact path="/join" element={<Join />}></Route>
+        <Route exact path="/create" element={<Create />}></Route>
       </Routes>
     </Router>
   </React.StrictMode>,

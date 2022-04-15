@@ -79,8 +79,6 @@ class JoinRso extends React.Component {
       })
     };
 
-    console.log(this.state.uni_id)
-
     const post = await fetch("/rso/" + this.state.rso_id, msg);
     const res = await post.json()
     return res;

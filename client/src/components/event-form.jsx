@@ -136,6 +136,16 @@ class EventForm extends React.Component {
   };
 
   handleSubmit = async (e) => {
+    // Checks for empty fields to prevent empty creations
+    const strState = JSON.stringify(this.state).slice(1, -1).split(",")
+    for (let i = 0; i < strState.length; i++) {
+      if (strState[i].split(":")[1] === "\"\"")
+      {
+        this.setState({alert: "Empty fields"});
+        return;
+      }
+    }
+
     const res = await this.postEvent();
 
     if (res.err) {

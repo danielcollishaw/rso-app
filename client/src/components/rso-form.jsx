@@ -1,16 +1,13 @@
 import React from "react";
 
-class University extends React.Component {
+class RsoForm extends React.Component {
 
   constructor() {
     super()
 
     this.state = {
       name: "",
-      website: "",
-      desc: "",
-      students: "",
-      alert: "",
+      email: "",
       refresh: -1,
       token: localStorage.getItem("token"),
       user_id: localStorage.getItem("user_id")
@@ -22,7 +19,7 @@ class University extends React.Component {
       <div>
         <form className="card border-3">
           <div className="card-header">
-            <h1 className="text-center text-muted mb-0">Found a University</h1>
+            <h1 className="text-center text-muted mb-0">Create a RSO</h1>
           </div>
 
           <div className="container w-75 p-3">
@@ -31,19 +28,7 @@ class University extends React.Component {
             </div>
 
             <div className="form-outline mb-3">
-              <input onChange={this.handleWeb} id="web" className="form-control" placeholder="Website"/>
-            </div>
-
-            <div className="form-outline mb-3">
-              <input onChange={this.handleAddress} id="location" className="form-control" placeholder="Full Address"/>
-            </div>
-
-            <div className="form-outline mb-3">
-              <textarea onChange={this.handleDesc} id="desc" className="form-control" placeholder="Description"/>
-            </div>
-
-            <div className="form-outline mb-3">
-              <input onChange={this.handleStudents} id="numStudents" className="form-control" type="number" min="1" placeholder="Number of Students"/>
+              <input onChange={this.handleEmail} id="email" className="form-control" placeholder="Email"/>
             </div>
 
             <div className="row mb-4">
@@ -67,37 +52,22 @@ class University extends React.Component {
     this.setState({name: e.target.value});
   };
 
-  handleWeb = (e) => {
-    this.setState({website: e.target.value});
+  handleEmail = (e) => {
+    this.setState({email: e.target.value});
   };
 
-  handleAddress = (e) => {
-    this.setState({address: e.target.value});
-  };
 
-  handleDesc = (e) => {
-    this.setState({desc: e.target.value});
-  };
-
-  handleStudents = (e) => {
-    this.setState({students: e.target.value});
-  };
-
-  postUni = async () => {
+  postRso = async () => {
     const msg = {
       method: "POST",
       headers: {"Content-Type": "application/json", "Authorization": this.state.token},
       body: JSON.stringify({
         name: this.state.name,
-        website: this.state.website,
-        description: this.state.desc,
-        numStudents: this.state.students,
-        user_id: this.state.user_id,
-        address: this.state.address
+        email: this.state.email
       })
     };
 
-    const post = await fetch("/university", msg);
+    const post = await fetch("/rso", msg);
     const res = await post.json()
     return res;
   };
@@ -113,8 +83,8 @@ class University extends React.Component {
         return;
       }
     }
-
-    const res = await this.postUni();
+    
+    const res = await this.postRso();
 
     if (res.err) {
       if (res.err.message)
@@ -124,9 +94,9 @@ class University extends React.Component {
     }
 
     if (res.response) {
-      this.setState({alert: "Created university", refresh: 1});
+      this.setState({alert: "Created rso", refresh: 1});
     }
   };
 }
 
-export default University;
+export default RsoForm;

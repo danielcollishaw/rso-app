@@ -20,7 +20,8 @@ class Nav extends React.Component {
         login: <a onClick={() => localStorage.clear()} className="nav-item nav-link text-dark" href="/login">Logout</a>,
         found: <a className="nav-item nav-link text-dark" href="/university">Create University</a>,
         join: <a className="nav-item nav-link text-dark" href="/attend">Join University</a>,
-        rso: <a className="nav-item nav-link text-dark" href="/join">Join RSOs</a>
+        rso: <a className="nav-item nav-link text-dark" href="/join">Join RSOs</a>,
+        create: <a className="nav-item nav-link text-dark" href="/create">Create RSO</a>
       };
     }
   }
@@ -28,8 +29,9 @@ class Nav extends React.Component {
   render() {
     return (
       <div className="navbar justify-content-end border-bottom border-dark">
-        {this.state.organize}
+        {this.state.create}
         {this.state.found}
+        {this.state.organize}
         {this.state.join}
         {this.state.rso}
         <a className="nav-item nav-link text-dark" href="/">Home</a>

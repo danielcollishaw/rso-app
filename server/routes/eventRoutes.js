@@ -10,7 +10,7 @@ eventRouter.get('/events', verifyToken, (req, res) => {
     //show public events
     connection.query(
         //first query is public, 2nd query is private, 3rd query is RSO
-        `SELECT E.* FROM events E WHERE E.type_of = "PUBLIC" 
+        `SELECT E.* FROM events E WHERE E.type_of = "PUBLIC"
         UNION
         SELECT E1.* FROM events E1, organizes O, admins AD, attends A WHERE A.user_id = "${req.user.user_id}" AND A.uni_id = AD.uni_id AND AD.user_id = O.user_id AND O.event_id = E1.event_id AND E1.type_of = "PRIVATE"
         UNION
@@ -106,7 +106,7 @@ eventRouter.post('/events/:event_id/reviews', verifyToken, (req, res) => {
     const { comment, rating, time } = req.body
 
     connection.query(
-        `INSERT INTO rates (user_id, event_id, comment, rating, time) VALUES ("${rate_id}", "${req.user.user_id}", "${event_id}", "${comment}", "${rating}", "${time}")`, (err, result) => {
+        `INSERT INTO rates (rate_id, user_id, event_id, comment, rating, time) VALUES ("${rate_id}", "${req.user.user_id}", "${event_id}", "${comment}", "${rating}", "${time}")`, (err, result) => {
             if (err) {
                 res.status(500).json({ err: `smth happened on the server, ${err}` })
             } else {

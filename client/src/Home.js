@@ -8,7 +8,7 @@ function Home() {
     <div className="Home">
         <Nav></Nav>
         <div className="body">
-          <EventCard></EventCard>
+          <Dashboard></Dashboard>
         </div>
     </div>
   );

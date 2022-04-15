@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./card.module.css";
 
 class Ratings extends React.Component {
   state = {
@@ -16,15 +15,22 @@ class Ratings extends React.Component {
     localRating: 0,
   };
 
+  componentDidUpdate(prev) {
+    if (prev.totalRatings !== this.props.totalRatings)
+      this.setState({
+        totalRatings: this.props.totalRatings,
+        numRatings: this.props.numRatings
+      })
+  }
+
   render() {
     return (
-      <div style={{"font-size": this.state.fontSize}}className=" star-meter">
+      <div style={{"fontSize": this.state.fontSize}}className=" star-meter">
         {this.state.stars.map((star) => (
           <span
             style={{ color: this.getStarColor() }}
             key={star.id}
             className={this.getStarIcon(star.value) + " m-2"}
-            onClick={() => this.handleRate(star.id)}
           ></span>
         ))}
 
@@ -57,7 +63,7 @@ class Ratings extends React.Component {
 
   // Returns the formated average rating rounded to one decimal places
   calcAvgRate = () => {
-    if (this.state.numRatings === 0) return 0;
+    if (this.state.numRatings === 0) return "Not Yet Rated";
 
     const avg = this.state.totalRatings / this.state.numRatings;
     return Math.round(avg * 10) / 10;
